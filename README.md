@@ -15,10 +15,6 @@
 هذا يضمن قابلية التوسع وسهولة فصل الموديولات إلى خدمات مصغرة (Microservices) في المستقبل إذا لزم الأمر.
 
 ## هيكلية المجلدات (Directory Structure)
-
-
-
-
 src/
 ├── main.ts                     # نقطة الدخول وإعدادات التطبيق الأساسية
 ├── app.module.ts               # الموديول الجذري (Root Module)
@@ -44,3 +40,8 @@ src/
         ├── tasks.controller.ts # التوجيه فقط (Skinny Controller)
         ├── tasks.service.ts    # منطق الأعمال (Fat Service)
         └── tasks.module.ts     # حاوية الاعتماديات (DI Container)
+
+## البنية التحتية (Infrastructure)
+* **قاعدة البيانات:** PostgreSQL (عبر Docker).
+* **ORM:** Prisma (نمط Data Mapper مع أمان أنواع كامل و Type-Safety).
+* **الحاويات:** Docker & Docker Compose لعزل بيئة التطوير عن نظام التشغيل.

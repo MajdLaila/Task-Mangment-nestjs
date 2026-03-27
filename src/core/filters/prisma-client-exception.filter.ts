@@ -48,8 +48,7 @@ export class PrismaClientExceptionFilter implements ExceptionFilter {
       message = 'بيانات غير صالحة تم إرسالها إلى قاعدة البيانات (تأكد من أنواع الحقول).';
     }
 
-    // إرجاع الرد بنفس الهيكل المعماري الموحد
-    response.status(status).json({
+     response.status(status).json({
       success: false,
       statusCode: status,
       message: message,

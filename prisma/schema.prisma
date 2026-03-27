@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,10 +6,6 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
-// -----------------------------------------------------------------------------
-// Enums (الثوابت)
-// -----------------------------------------------------------------------------
 
 enum TaskStatus {
   OPEN
@@ -26,43 +20,44 @@ enum TaskPriority {
   CRITICAL
 }
 
-// -----------------------------------------------------------------------------
-// Domain Models (تمثيل الجداول والعلاقات)
-// -----------------------------------------------------------------------------
-
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
+  id        String   @id @default(uuid())
   email     String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
 
+  // الإضافات الجديدة
+  firstName String?  @db.VarChar(100)
+  lastName  String?  @db.VarChar(100)
+  avatarUrl String?  @db.Text
+  isActive  Boolean  @default(true)
+
   tasks     Task[]
 
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
 model Task {
-  id          String       @id @default(uuid()) @db.Uuid
+  id          String       @id @default(uuid())
   title       String       @db.VarChar(255)
   description String?      @db.Text
   status      TaskStatus   @default(OPEN)
-  priority    TaskPriority @default(MEDIUM) // حقل الأولوية الجديد
+  priority    TaskPriority @default(MEDIUM)
 
-  // علاقة المستخدم
-  userId      String       @map("user_id") @db.Uuid
+  // الإضافة الجديدة
+  dueDate     DateTime?
+
+  userId      String       @map("user_id")
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // ---------------------------------------------------------------------------
-  // نمط العلاقة الذاتية (Self-Referencing) للمهام الفرعية
-  // ---------------------------------------------------------------------------
-  parentId    String?      @map("parent_id") @db.Uuid // إذا كان فارغاً (null)، فهذه مهمة رئيسية
+  parentId    String?      @map("parent_id")
   parent      Task?        @relation("TaskToSubtasks", fields: [parentId], references: [id], onDelete: Cascade)
-  subtasks    Task[]       @relation("TaskToSubtasks") // قائمة المهام الفرعية التابعة لهذه المهمة
+  subtasks    Task[]       @relation("TaskToSubtasks")
 
-  createdAt   DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt   DateTime     @updatedAt @db.Timestamptz(6)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   @@map("tasks")
 }

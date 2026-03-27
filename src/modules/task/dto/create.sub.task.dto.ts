@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { TaskPriority, TaskStatus } from '@prisma/client';
 
@@ -10,7 +10,9 @@ import { TaskPriority, TaskStatus } from '@prisma/client';
   @IsOptional()
   @IsString()
   description?: string;
-
+@IsOptional()
+  @IsDateString({}, { message: 'يجب إدخال تاريخ صالح (ISO8601)' })
+  dueDate?: string;
   @IsOptional()
   @IsEnum(TaskPriority)
    priority?: TaskPriority;

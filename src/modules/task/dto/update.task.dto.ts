@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, IsUUID, MinLength } from 'class-validator';
+import { IsDateString, IsEnum, IsOptional, IsString, IsUUID, MinLength } from 'class-validator';
 import { TaskPriority, TaskStatus } from '@prisma/client';
 
 export class UpdateTaskDto {
@@ -14,7 +14,9 @@ export class UpdateTaskDto {
   @IsOptional()
   @IsEnum(TaskPriority)
   priority?: TaskPriority;
-
+@IsOptional()
+  @IsDateString({}, { message: 'يجب إدخال تاريخ صالح (ISO8601)' })
+  dueDate?: string;
   @IsOptional()
   @IsEnum(TaskStatus)
   status?: TaskStatus;

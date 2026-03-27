@@ -1,6 +1,6 @@
- 
+
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, IsEnum, IsInt, Min } from 'class-validator';
+import { IsOptional, IsString, IsEnum, IsInt, Min, IsDateString } from 'class-validator';
 import { TaskStatus } from '@prisma/client';
 
 export class GetTasksQueryDto {
@@ -27,4 +27,8 @@ export class GetTasksQueryDto {
    @IsOptional()
   @IsString()
   parentId?: string;
+
+  @IsOptional()
+  @IsDateString({}, { message: 'يجب إدخال تاريخ صالح (مثال: 2026-03-25)' })
+  date?: string;
 }

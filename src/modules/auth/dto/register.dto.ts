@@ -1,4 +1,4 @@
- 
+
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterDto {
@@ -10,4 +10,16 @@ export class RegisterDto {
   @IsString({ message: 'كلمة المرور يجب أن تكون نصاً' })
   @MinLength(6, { message: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل' })
   password: string;
+
+
+  @IsNotEmpty({ message:   'الاسم الاول مطلوب ' })
+  @IsString({ message: '   الاسم الاول يجب أن تكون نصاً' })
+  @MinLength(6, { message: 'يجب أن يتكون   الاسم الاول من 6 أحرف على الأقل' })
+  firstName: string;
+
+  @IsNotEmpty({ message: '  الاسم الاخير مطلوبة' })
+  @IsString({ message: '  الاسم الاخير يجب أن تكون نصاً' })
+  @MinLength(6, { message: 'يجب أن يتكون   الاسم الاخير من 6 أحرف على الأقل' })
+  lastName: string;
+
 }
